@@ -5,7 +5,7 @@ class ArraySearch{
     Scanner sc=new Scanner(System.in);
     int pos=-1;
     System.out.println("Enter no.of elements or array");
-    int n=sc.newInt();
+    int n=sc.nextInt();
     int arr[]=new int[n];
     System.out.println("Enter"+n+"values");
     for(int i=0;i<n;i++){
@@ -25,3 +25,11 @@ class ArraySearch{
     }
   }
 }
+output:
+Enter no.of elements or array
+  6
+  Enter6values
+1 2 3 4 5 6
+Enter the key elements to search
+5
+5Element found at 5
