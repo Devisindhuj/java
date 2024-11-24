@@ -1,0 +1,68 @@
+                                       Java File Path
+
+java.io.File contains three methods for determining the file path, we will
+explore them in this tutorial. 1. getPath(): This file path method returns the abstract pathname as
+String. If String pathname is used to create File object, it simply returns
+the pathname argument. If URI is used as argument then it removes the
+protocol and returns the file name. 2. getAbsolutePath(): This file path method returns the absolute path
+of the file. If File is created with absolute pathname, it simply returns the
+pathname. If the file object is created using a relative path, the absolute
+pathname is resolved in a system-dependent way. On UNIX systems, a
+relative pathname is made absolute by resolving it against the current
+user directory. On Microsoft Windows systems, a relative pathname is
+made absolute by resolving it against the current directory of the drive
+named by the pathname, if any; if not, it is resolved against the current
+user directory. 3. [getCanonicalPath](https://docs.oracle.com/javase/7/docs/api/jav
+a/io/File.html#getCanonicalPath())(): This path method returns the
+canonical pathname that is both absolute and unique. This method first
+converts this pathname to absolute form if necessary, as if by invoking
+the getAbsolutePath method, and then maps it to its unique form in a
+system-dependent way. This typically involves removing redundant
+names such as “.” and “...” from the pathname, resolving symbolic links
+(on UNIX platforms), and converting drive letters to a standard case (on
+Microsoft Windows platforms). Java File Path Example
+Let’s see different cases of the file path in java with a simple program.
+Program:
+package com.journaldev.files;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+public class JavaFilePath {
+public static void main(String[] args) {
+try {
+// Absolute path
+File file = new File("/Users/pankaj/test.txt");
+printPaths(file);
+
+// Relative path
+file = new File("test.xsd");
+printPaths(file);
+// Complex relative path
+file = new File("/Users/pankaj/../pankaj/test.txt");
+printPaths(file);
+// URI path
+file = new File(new URI("file:///Users/pankaj/test.txt"));
+printPaths(file);
+} catch (IOException | URISyntaxException e) {
+e.printStackTrace();
+}
+}
+private static void printPaths(File file) throws IOException {
+System.out.println("Path: " + file.getPath());
+System.out.println("Absolute Path: " + file.getAbsolutePath());
+System.out.println("Canonical Path: " + file.getCanonicalPath());
+System.out.println("---------------------------");
+}
+}
+Output:
+Path: /Users/pankaj/test.txt
+Absolute Path: /Users/pankaj/test.txt
+Canonical Path: /Users/pankaj/test.txt --------------------------- Path: test.xsd
+Absolute Path: /Users/pankaj/test.xsd
+Canonical Path: /Users/pankaj/test.xsd
+--------------------------- Path: /Users/pankaj/../pankaj/test.txt
+Absolute Path: /Users/pankaj/../pankaj/test.txt
+Canonical Path: /Users/pankaj/test.txt --------------------------- Path: /Users/pankaj/test.txt
+Absolute Path: /Users/pankaj/test.txt
+Canonical Path: /Users/pankaj/test.txt ---------------------------
