@@ -1,0 +1,282 @@
+                      THREADS
+
+ A thread in Java is the direction or path that is taken while a program
+is being executed. Generally, all the programs have at least one
+thread, known as the main thread, that is provided by the JVM
+or Java Virtual Machine at the starting of the program’s execution. At
+this point, when the main thread is provided, the main() method is
+invoked by the main thread.  A thread is an execution thread in a program. Multiple threads of
+execution can be run concurrently by an thread varies. Higher
+priority threads are executed before lower priority threads.  Thread is critical in the program because it enables multiple
+operations to take place within a single method. Each thread in the
+program often has its own program counter, stack, and local variable.  Thread in Java enables concurrent execution, dividing tasks for
+improved performance. It's essential for handling operations like I/O
+and network communication efficiently. Understanding threads is
+crucial for responsive Java applications. Enroll in a Java Course to
+master threading and create efficient multithreaded programs. LIFE CYCLE OF THREAD:
+
+Life cycle of a Thread (Thread States)
+In Java, a thread always exists in any one of the following states. These
+states are:
+1. New
+
+2. Active
+3. Blocked / Waiting
+4. Timed Waiting
+5. Terminated
+Explanation of Different Thread States
+New: Whenever a new thread is created, it is always in the new state. For a thread in the new state, the code has not been run yet and thus has
+not begun its execution. Active: When a thread invokes the start() method, it moves from the new
+state to the active state. The active state contains two states within it:
+one is runnable, and the other is running. o Runnable: A thread, that is ready to run is then moved to the
+runnable state. In the runnable state, the thread may be running or
+may be ready to run at any given instant of time. It is the duty of
+the thread scheduler to provide the thread time to run, i.e., moving
+the thread the running state. A program implementing multithreading acquires a fixed slice of
+time to each individual thread. Each and every thread runs for a
+short span of time and when that allocated time slice is over, the
+thread voluntarily gives up the CPU to the other thread, so that the
+other threads can also run for their slice of time. Whenever such a
+scenario occurs, all those threads that are willing to run, waiting
+for their turn to run, lie in the runnable state. In the runnable
+state, there is a queue where the threads lie. o Running: When the thread gets the CPU, it moves from the
+runnable to the running state. Generally, the most common change
+in the state of a thread is from runnable to running and again back
+to runnable. Blocked or Waiting: Whenever a thread is inactive for a span of time (not
+permanently) then, either the thread is in the blocked state or is in the
+waiting state. For example, a thread (let's say its name is A) may want to print some
+data from the printer. However, at the same time, the other thread (let's
+say its name is B) is using the printer to print some data. Therefore, thread A has to wait for thread B to use the printer. Thus, thread A is in
+the blocked state. A thread in the blocked state is unable to perform any
+execution and thus never consume any cycle of the Central Processing
+Unit (CPU). Hence, we can say that thread A remains idle until the thread
+scheduler reactivates thread A, which is in the waiting or blocked state.
+
+When the main thread invokes the join() method then, it is said that the
+main thread is in the waiting state. The main thread then waits for the
+child threads to complete their tasks. When the child threads complete
+their job, a notification is sent to the main thread, which again moves the
+thread from waiting to the active state. If there are a lot of threads in the waiting or blocked state, then it is the
+duty of the thread scheduler to determine which thread to choose and
+which one to reject, and the chosen thread is then given the opportunity
+to run. Timed Waiting: Sometimes, waiting for leads to starvation. For example, a thread (its name is A) has entered the critical section of a code and is
+not willing to leave that critical section. In such a scenario, another
+thread (its name is B) has to wait forever, which leads to starvation. To
+avoid such scenario, a timed waiting state is given to thread B. Thus, thread lies in the waiting state for a specific span of time, and not
+forever. A real example of timed waiting is when we invoke the sleep()
+method on a specific thread. The sleep() method puts the thread in the
+timed wait state. After the time runs out, the thread wakes up and start
+its execution from when it has left earlier. Terminated: A thread reaches the termination state because of the
+following reasons:
+o When a thread has finished its job, then it exists or terminates
+normally. o Abnormal termination: It occurs when some unusual events such
+as an unhandled exception or segmentation fault. A terminated thread means the thread is no more in the system. In other
+words, the thread is dead, and there is no way one can respawn (active
+after kill) the dead thread. Implementation of Thread States
+In Java, one can get the current state of a thread using
+the Thread.getState() method. The java.lang.Thread.State class of Java
+provides the constants ENUM to represent the state of a thread. These
+constants are:
+. public static final Thread.State NEW
+It represents the first state of a thread that is the NEW state.
+. public static final Thread.State RUNNABLE
+It represents the runnable state.It means a thread is waiting in the queue
+to run.
+
+. public static final Thread.State BLOCKED
+It represents the blocked state. In this state, the thread is waiting to
+acquire a lock.
+. public static final Thread.State WAITING
+It represents the waiting state. A thread will go to this state when it
+invokes the Object.wait() method, or Thread.join() method with no
+timeout. A thread in the waiting state is waiting for another thread to
+complete its task.
+. public static final Thread.State TIMED_WAITING
+It represents the timed waiting state. The main difference between
+waiting and timed waiting is the time constraint. Waiting has no time
+constraint, whereas timed waiting has the time constraint. A thread
+invoking the following method reaches the timed waiting state. o sleep
+o join with timeout
+o wait with timeout
+o parkUntil
+o parkNanos
+. public static final Thread.State TERMINATED
+It represents the final state of a thread that is terminated or dead. A
+terminated thread means it has completed its execution. Java Program for Demonstrating Thread States
+FileName: ThreadState.java
+. class ABC implements Runnable
+. {
+. public void run()
+. {
+. try
+. {
+
+Thread.sleep(100);
+
+. }
+. catch (InterruptedException ie)
+. {
+. ie.printStackTrace();
+. }
+. System.out.println("The state of thread t1 while it invoked the me
+thod join() on thread t2 - "+ ThreadState.t1.getState());
+. try
+. {
+. Thread.sleep(200);
+. }
+
+. catch (InterruptedException ie)
+. {
+. ie.printStackTrace();
+. }
+. }
+. }
+. public class ThreadState implements Runnable
+. {
+. public static Thread t1;
+. public static ThreadState obj;
+. public static void main(String argvs[])
+. {
+. obj = new ThreadState();
+. t1 = new Thread(obj);
+. System.out.println("The state of thread t1 after spawning it - " + t1.getState());
+. t1.start();
+. System.out.println("The state of thread t1 after invoking the
+. method start() on it - " + t1.getState());
+. }
+. public void run()
+. {
+. ABC myObj = new ABC();
+. Thread t2 = new Thread(myObj);
+. System.out.println("The state of thread t2 after spawning it - "+ t2.getState());
+. t2.start();
+. System.out.println("the state of thread t2 after calling the method
+
+start() on it - " + t2.getState());
+
+. try
+. {
+. Thread.sleep(200);
+. }
+. catch (InterruptedException ie)
+. {
+. ie.printStackTrace();
+. }
+. System.out.println("The state of thread t2 after invoking the
+. method sleep() on it - "+ t2.getState() );
+. try
+. {
+. t2.join();
+. }
+. catch (InterruptedException ie)
+. {
+. ie.printStackTrace();
+
+. }
+. System.out.println("The state of thread t2 when it has completed
+. It's execution - " + t2.getState());
+. }
+. }
+Output:
+The state of thread t1 after spawning it - NEW
+The state of thread t1 after invoking the method start() on it - RUNNABLE
+The state of thread t2 after spawning it - NEW
+the state of thread t2 after calling the method start() on it - RUNNABLE
+The state of thread t1 while it invoked the method join() on thread t2 - TIMED_WAITING
+The state of thread t2 after invoking the method sleep() on it - TIMED_WAITING
+The state of thread t2 when it has completed it's execution - TERMINATED
+
+Priority of a Thread in Java
+
+ Every Java thread has a priority that helps the operating
+system determine the order in which threads are scheduled. You can
+get and set the priority of a Thread. Thread class provides methods
+and constants for working with the priorities of a Thread.  Threads with higher priority are more important to a program and
+should be allocated processor time before lower-priority threads. However, thread priorities cannot guarantee the order in which
+threads execute and are very much platform dependent. Built-in Property Constants of Thread Class
+ Java thread priorities are in the range between MIN_PRIORITY (a
+constant of 1) and MAX_PRIORITY (a constant of 10). By default, every thread is given priority NORM_PRIORITY (a constant of 5).  MIN_PRIORITY: Specifies the minimum priority that a thread can
+have.  NORM_PRIORITY: Specifies the default priority that a thread is
+assigned.  MAX_PRIORITY: Specifies the maximum priority that a thread can
+have. Types of synchronization:
+There are two types of synchronization that are as follows:
+1. Process synchronization
+2. Thread synchronization
+
+Here we will be mainly focusing on thread synchronization. Thread synchronization basically refers to The concept of one thread
+execute at a time and the rest of the threads are in waiting state. This
+process is known as thread synchronization. It prevents the thread
+interference and inconsistency problem. Synchronization is build using locks or monitor. In Java, a monitor is an
+object that is used as a mutually exclusive lock. Only a single thread at a
+time has the right to own a monitor. When a thread gets a lock then all
+other threads will get suspended which are trying to acquire the locked
+monitor. So, other threads are said to be waiting for the monitor, until
+the first thread exits the monitor. In a simple way, when a thread
+request a resource then that resource gets locked so that no other
+thread can work or do any modification until the resource gets released. Thread Synchronization are of two types:
+1. Mutual Exclusive
+2. Inter-Thread Communication
+A. Mutual Exclusive
+While sharing any resource, this will keep the thread interfering with
+one another i.e. mutual exclusive. We can achieve this via
+ Synchronized Method
+ Synchronized Block
+ Static Synchronization
+Synchronized Method
+We can declare a method as synchronized
+using the “synchronized” keyword. This will make the code written
+inside the method thread-safe so that no other thread will execute while
+the resource is shared. Thread Priority Setter and Getter Methods
+ Thread.getPriority() Method: This method is used to get the priority
+of a thread.  Thread.setPriority() Method: This method is used to set the priority of a thread, it accepts the priority value and updates an existing priority with the given
+priority. 
+
+PROGRAM:
+package com.tutorialspoint;
+class ThreadDemo extends Thread {
+ThreadDemo() { }
+public void run() {
+System.out.println("Thread Name: " +
+Thread.currentThread().getName()
++ ", Thread Priority: " + Thread.currentThread().getPriority());
+
+for(int i = 4; i > 0; i--) {
+System.out.println("Thread: " + Thread.currentThread().getName()
++ ", Countdown: " + i);
+try {
+Thread.sleep(50);
+} catch (InterruptedException e) {
+e.printStackTrace();
+}
+}
+}
+public void start() {
+super.start();
+}
+}
+public class TestThread {
+public static void main(String args[]) {
+ThreadDemo thread1 = new ThreadDemo();
+ThreadDemo thread2 = new ThreadDemo();
+ThreadDemo thread3 = new ThreadDemo();
+thread1.start();
+thread2.start();
+thread3.start();
+}
+}
+OUTPUT:
+Thread Name: Thread-0, Thread Priority: 5
+Thread: Thread-0, Countdown: 4
+Thread Name: Thread-1, Thread Priority: 5
+Thread: Thread-1, Countdown: 4
+Thread Name: Thread-2, Thread Priority: 5
+Thread: Thread-2, Countdown: 4
+Thread: Thread-0, Countdown: 3
+Thread: Thread-1, Countdown: 3
+Thread: Thread-2, Countdown: 3
+Thread: Thread-0, Countdown: 2
+Thread: Thread-1, Countdown: 2
+Thread: Thread-2, Countdown: 2
+Thread: Thread-0, Countdown: 1
+Thread: Thread-1, Countdown: 1
+Thread: Thread-2, Countdown: 1
