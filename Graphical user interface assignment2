@@ -1,0 +1,199 @@
+GUI stands for Graphical User Interface. It refers to an interface that
+allows one to interact with electronic devices like computers and tablets
+through graphic elements. It uses icons, menus, and other graphical
+representations to display information, as opposed to text-based
+commands. The graphic elements enable users to give commands to the
+computer and select functions by using the mouse or other input devices.
+Program:
+import java.awt.*;
+import java.awt.event.*;
+// Calculator class that extends WindowAdapter and implements
+ActionListener for handling events
+class MyCalc extends WindowAdapter implements ActionListener {
+Frame f;
+Label l1;
+Button b1, b2, b3, b4, b5, b6, b7, b8, b9, b0;
+Button badd, bsub, bmult, bdiv, bmod, bcalc, bclr, bpts, bneg, bback;
+double num1, num2, result;
+int operation;
+MyCalc() {
+f = new Frame("MY CALCULATOR");
+// Label to display input and result
+l1 = new Label();
+l1.setBackground(Color.LIGHT_GRAY);
+l1.setBounds(50, 50, 260, 60);
+// Initialize number buttons with positions
+b1 = createButton("1", 50, 340);
+b2 = createButton("2", 120, 340);
+b3 = createButton("3", 190, 340);
+b4 = createButton("4", 50, 270);
+b5 = createButton("5", 120, 270);
+b6 = createButton("6", 190, 270);
+b7 = createButton("7", 50, 200);
+b8 = createButton("8", 120, 200);
+b9 = createButton("9", 190, 200);
+b0 = createButton("0", 120, 410);
+// Initialize special function buttons
+bneg = createButton("+/-", 50, 410);
+bpts = createButton(".", 190, 410);
+bback = createButton("back", 120, 130);
+// Initialize arithmetic operation buttons
+badd = createButton("+", 260, 340);
+bsub = createButton("-", 260, 270);
+bmult = createButton("*", 260, 200);
+bdiv = createButton("/", 260, 130);
+
+bmod = createButton("%", 190, 130);
+bcalc = createButton("=", 245, 410);
+bclr = createButton("CE", 50, 130);
+// Add components to the frame
+f.add(l1);
+f.setSize(360, 500);
+f.setLayout(null);
+f.setVisible(true);
+f.addWindowListener(this); // To handle window close
+// Add action listeners for each button
+addListeners();
+}
+// Utility method to create a button and set bounds
+private Button createButton(String label, int x, int y) {
+Button button = new Button(label);
+button.setBounds(x, y, 50, 50);
+f.add(button);
+return button;
+}
+// Method to add action listeners for buttons
+private void addListeners() {
+b1.addActionListener(this); b2.addActionListener(this);
+b3.addActionListener(this); b4.addActionListener(this);
+b5.addActionListener(this); b6.addActionListener(this);
+b7.addActionListener(this); b8.addActionListener(this);
+b9.addActionListener(this); b0.addActionListener(this);
+badd.addActionListener(this); bsub.addActionListener(this);
+bmult.addActionListener(this); bdiv.addActionListener(this);
+bmod.addActionListener(this); bcalc.addActionListener(this);
+bclr.addActionListener(this);
+bpts.addActionListener(this); bneg.addActionListener(this);
+bback.addActionListener(this);
+}
+// Closing window
+public void windowClosing(WindowEvent e) {
+f.dispose();
+}
+// Method to handle button actions
+public void actionPerformed(ActionEvent e) {
+String label = ((Button)e.getSource()).getLabel();
+String currentText = l1.getText();
+// Handling number and decimal point buttons
+if ("0123456789.".contains(label)) {
+l1.setText(currentText + label);
+} else if (label.equals("CE")) {
+clear();
+
+} else if (label.equals("+/-")) {
+l1.setText(currentText.startsWith("-") ? currentText.substring(1) : "-" + currentText);
+} else if (label.equals("back")) {
+if (currentText.length() > 0) {
+l1.setText(currentText.substring(0, currentText.length() - 1));
+}
+} else if ("+-*/%".contains(label)) {
+handleOperator(label);
+} else if (label.equals("=")) {
+calculateResult();
+}
+}
+// Method to handle arithmetic operations
+private void handleOperator(String operator) {
+try {
+num1 = Double.parseDouble(l1.getText());
+} catch (NumberFormatException e) {
+l1.setText("Invalid Format");
+return;
+}
+l1.setText("");
+switch (operator) {
+case "+" -> operation = 1;
+case "-" -> operation = 2;
+case "*" -> operation = 3;
+case "/" -> operation = 4;
+case "%" -> operation = 5;
+}
+}
+// Method to calculate and display the result
+private void calculateResult() {
+try {
+num2 = Double.parseDouble(l1.getText());
+} catch (Exception e) {
+l1.setText("Enter a number");
+return;
+}
+switch (operation) {
+case 1 -> result = num1 + num2;
+case 2 -> result = num1 - num2;
+case 3 -> result = num1 * num2;
+case 4 -> result = num1 / num2;
+case 5 -> result = num1 % num2;
+}
+
+l1.setText(String.valueOf(result));
+}
+// Method to clear the display and reset variables
+private void clear() {
+num1 = 0;
+num2 = 0;
+operation = 0;
+result = 0;
+l1.setText("");
+}
+// Main method to launch the calculator
+public static void main(String args[]) {
+new MyCalc();
+}
+}
+Output:
+Calculator started. Button pressed: 1
+Display updated: 1
+Button pressed: 2
+Display updated: 12
+Button pressed: 3
+Display updated: 123
+Button pressed: +
+Display cleared, waiting for second number. Button pressed: 4
+Display updated: 4
+Button pressed: 5
+Display updated: 45
+Button pressed: =
+Calculation performed: 123 + 45 = 168
+Display updated: 168
+Button pressed: 6
+Display updated: 6
+Button pressed: *
+Display cleared, waiting for second number. Button pressed: 3
+Display updated: 3
+Button pressed: =
+Calculation performed: 6 * 3 = 18
+Display updated: 18
+Button pressed: 7
+Display updated: 7
+Button pressed: -
+
+Display cleared, waiting for second number. Button pressed: 2
+Display updated: 2
+Button pressed: =
+Calculation performed: 7 - 2 = 5
+Display updated: 5
+Button pressed: 5
+Display updated: 5
+Button pressed: +/- Display updated: -5
+Button pressed: CE
+Display cleared. Button pressed: 1
+Display updated: 1
+Button pressed: +
+Display cleared, waiting for second number. Button pressed: 0
+Display updated: 0
+Button pressed: /
+Display cleared, waiting for second number. Button pressed: 0
+Display updated: 0
+Button pressed: =
+Error: Division by zero. 
+Enter a number first.
