@@ -1,0 +1,93 @@
+                              PACKAGES IN JAVA
+A package in Java is used to group related classes. Think of it as a folder
+in a file directory. We use packages to avoid name conflicts, and to write
+a better maintainable code. Packages are divided into two categories:
+ Built-in Packages (packages from the Java API)
+ User-defined Packages (create your own packages)
+
+Built-in Packages
+These packages consist of a large number of classes which are a part of
+Java API.Some of the commonly used built-in packages are:
+1. java.lang: Contains language support classes(e.g classes which
+defines primitive data types, math operations). This package is
+automatically imported. 2. java.io: Contains classes for supporting input / output operations. 3. java.util: Contains utility classes which implement data
+structures like Linked List, Dictionary and support ; for Date / Time
+operations. 4. Contains classes for creating Applets. 5. java.awt: Contain classes for implementing the components for
+graphical user interfaces (like button , ;menus etc). 6)
+6. java.net: Contain classes for supporting networking operations.
+
+Java program of demonstrating use of java.lang package
+class JavaLangExample {
+public static void main(String args []) {
+int a = 20, b =30;
+int sum = Math.addExact(a,b);
+int max = Math.max(a,b);
+double pi = Math.PI;
+System.out.printf("Sum = "+sum+", Max = "+max+", PI = "+pi);
+}
+}
+Output:
+Sum = 50, Max = 30, PI = 3.141592653589793
+Java program of demonstrating use of java.io package
+import java.io.Console;
+class JavaIOExample {
+public static void main(String args []) {
+Console cs = System.console();
+System.out.println("Enter your name : ");
+String name = cs.readLine();
+System.out.println("Welcome : "+name);
+}
+}
+Output:
+Enter your name : teja
+Welcome : teja
+
+Java program of demonstrating use of java.util package
+import java.util.Arrays;
+class JavaUtilExample {
+public static void main(String args []) {
+int[] intArray = {10,30,20,50,40};
+Arrays.sort(intArray);
+System.out.printf("Sorted array : %s", Arrays.toString(intArray));
+}
+}
+Output:
+Sorted array : [10, 20, 30, 40, 50]
+
+User-defined packages
+
+User-defined packages are those packages that are designed or created
+by the developer to categorize classes and packages. They are much
+similar to the built-in that java offers. It can be imported into other
+classes and used the same as we use built-in packages. But If we omit
+the package statement, the class names are put into the default package, which has no name. //write a java program using user defined packages. import java.io.*;
+class Greeting {
+public void sayHello() {
+System.out.println("Hello from mypackage!");
+}
+}
+class Farewell {
+public void sayGoodbye() {
+System.out.println("Goodbye from mypackage!");
+}
+}
+class ThankYou {
+public void sayThanks() {
+System.out.println("Thank you from mypackage!");
+}
+}
+public class Main {
+public static void main(String[] args) {
+Greeting greet = new Greeting();
+greet.sayHello();
+Farewell farewell = new Farewell();
+farewell.sayGoodbye();
+ThankYou thankYou = new ThankYou();
+thankYou.sayThanks();
+}
+}
+Output:
+
+Hello from mypackage!
+Goodbye from mypackage!
+Thank you from mypackage!
